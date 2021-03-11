@@ -2,9 +2,9 @@ FROM node:alpine
 
 WORKDIR /app/usr
 RUN apk add --update npm
-COPY package.json .
+COPY package.json ./
 RUN npm install
-COPY . .
+COPY ./ ./
 
 RUN npm run build
 
