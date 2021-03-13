@@ -1,4 +1,4 @@
-FROM node:alpine as build
+FROM node:alpine
 WORKDIR '/app'
 
 COPY package*.json ./
@@ -8,6 +8,9 @@ COPY ./ ./
 RUN npm run build
 
 FROM nginx:alpine
-COPY /nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/ngnix/html
+EXPOSE 80
+COPY --from=0 /app/build /var/www/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=0 /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
 
